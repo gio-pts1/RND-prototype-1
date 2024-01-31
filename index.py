@@ -12,7 +12,7 @@ elif(route == 3):
     ThirdScreen(root)
 elif(route == 4):
     r = Routing(root)
-    r.showMain()
+    r.showMainWithLabel()
     
 
 root.mainloop()

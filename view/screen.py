@@ -65,34 +65,77 @@ class ThirdScreen:
 class Routing:
     __root: ttk
     __rootframe: ttk.Frame
+    __labelFrame: ttk.Labelframe
     __label: ttk.Label
+    __btn: ttk.Button
+    __labelFrameFromRoot: ttk.Labelframe
 
     def __init__(self, root):
         root.title("Routing tru frames")        
         self.__root = root
         self.__root.columnconfigure(0, weight=1)
         self.__root.rowconfigure(0, weight=1)     
-        self.__rootframe = ttk.Frame(self.__root, width=200, height=400)  
-        self.__label = ttk.Label(self.__rootframe, text="Null")
+        self.__rootframe = ttk.Frame(self.__root)                  
+        self.__label = ttk.Label(self.__rootframe)
+        self.__labelFrame = ttk.Labelframe(self.__rootframe, text="null")
+        self.__btn = ttk.Button(self.__labelFrame, text="null", width=18)
+        self.__labelFrameFromRoot = ttk.Labelframe(self.__root, text="null")
 
     def showMain(self):        
         self.__rootframe['borderwidth'] = 2
         self.__rootframe['relief'] = 'raised'
         self.__rootframe.grid(column=0, row=0)
+        self.__rootframe['width'] = 400
+        self.__rootframe['height'] = 400
         self.__label.grid(column=0, row=0, sticky=W)
         self.__label['text'] = "Main Screen"
         b1 = ttk.Button(self.__rootframe, text="Show Second Screen", command=self.showSec, width=5)
         b1.grid(column=1, row=0, sticky=(E, W))
+
+    def showMainWithLabel(self):        
+        self.__rootframe.grid(column=0, row=0, padx= 20, pady=20, sticky=N)
+        self.__rootframe['borderwidth'] = 15
+        self.__rootframe['relief'] = 'raised'          
+        
+        self.__labelFrame.grid(column=1, row=1, sticky=W, padx= 10, pady=10)
+        self.__labelFrame['text'] = "Main Screen"        
+        
+        self.__label.grid(column=0, row=0, sticky=W)
+        self.__label['text'] = "Main Screen"
+
+        self.__btn['text'] = "Show lable frame only"
+        self.__btn['command'] = self.showLableFrameOnly
+        self.__btn.grid(column=1, row=0, sticky=(E, W))    
         
 
     def showSec(self):                
         self.__rootframe['borderwidth'] = 2
         self.__rootframe['relief'] = 'sunken'
-        self.__rootframe.grid(column=0, row=0)
+        self.__rootframe.grid(column=0, row=0, sticky=(N, W, S, E))
+        self.__rootframe['width'] = 400
+        self.__rootframe['height'] = 400
         self.__label.grid(column=0, row=0, sticky=W)
         self.__label['text'] = "Second Screen"
         b1 = ttk.Button(self.__rootframe, text="Show Second Screen", command=self.showMain, width=5)
         b1.grid(column=1, row=0, sticky=(E, W))
         
-    
+    def showSecWithLabel(self):               
+                
+        self.__labelFrame.grid(column=3, row=2, sticky=W, padx= 10, pady=10)
+        self.__labelFrame['text'] = "Second Screen"        
+
+        self.__label.grid(column=0, row=0, sticky=W)
+        self.__label['text'] = "Second Screen"
         
+        self.__btn['text'] = "Show main screen"
+        self.__btn['command'] = self.showMainWithLabel        
+        self.__btn.grid(column=1, row=0, sticky=(E, W))   
+
+    def showLableFrameOnly(self):
+        self.__labelFrameFromRoot.grid(column=0, row=0, padx=10, pady=10)
+        self.__labelFrameFromRoot['text'] = "Lable Frame Only"
+        
+        b1 = ttk.Button(self.__labelFrameFromRoot, text="Show main Screen")
+        
+        b1['command'] = self.showMainWithLabel        
+        b1.grid(column=1, row=0, sticky=(E, W))
